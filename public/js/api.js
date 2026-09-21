@@ -4,19 +4,6 @@
 const API_BASE_URL = '/ele2026/public/api';
 
 class ApiClient {
-    constructor() {
-        this.token = localStorage.getItem('ele2026_token');
-    }
-
-    setToken(token) {
-        this.token = token;
-        if (token) {
-            localStorage.setItem('ele2026_token', token);
-        } else {
-            localStorage.removeItem('ele2026_token');
-        }
-    }
-
     async request(endpoint, options = {}) {
         const url = `${API_BASE_URL}${endpoint}`;
         const headers = {
@@ -24,12 +11,9 @@ class ApiClient {
             'X-Requested-With': 'XMLHttpRequest'
         };
 
-        if (this.token) {
-            headers['Authorization'] = `Bearer ${this.token}`;
-        }
-
         const config = {
             ...options,
+            credentials: 'same-origin',
             headers: {
                 ...headers,
                 ...options.headers
@@ -46,7 +30,6 @@ class ApiClient {
 
             if (!response.ok || !data.success) {
                 if (response.status === 401) {
-                    this.setToken(null);
                     window.location.href = '/ele2026/public/login';
                 }
                 throw data;

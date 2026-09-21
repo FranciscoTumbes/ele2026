@@ -5,8 +5,11 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        // Redirect to login if not authenticated, otherwise dashboard
-        Response::redirect('/ele2026/public/login');
+        $target = $this->currentUser()
+            ? '/ele2026/public/dashboard'
+            : '/ele2026/public/login';
+
+        Response::redirect($target);
     }
 
     public function login()
@@ -20,6 +23,10 @@ class FrontendController extends Controller
 
     public function dashboard()
     {
+        if (!$this->currentUser()) {
+            Response::redirect('/ele2026/public/login');
+        }
+
         Response::html('layout', [
             'title' => 'Dashboard Electoral',
             'activeMenu' => 'dashboard',
@@ -29,6 +36,10 @@ class FrontendController extends Controller
 
     public function digitacion()
     {
+        if (!$this->currentUser()) {
+            Response::redirect('/ele2026/public/login');
+        }
+
         Response::html('layout', [
             'title' => 'Digitación de Actas',
             'activeMenu' => 'digitacion',

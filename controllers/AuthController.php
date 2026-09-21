@@ -25,9 +25,6 @@ class AuthController extends Controller
         $_SESSION['user'] = $user;
         $_SESSION['login_time'] = time();
 
-        // Registra token persistente
-        $usuarioModel->iniciarSesion((int)$user['id']);
-
         Response::success([
             'user' => $user,
             'redirect' => '/dashboard'

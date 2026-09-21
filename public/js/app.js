@@ -88,10 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const res = await api.login(username, password);
 
-                if (res.data?.token) {
-                    api.setToken(res.data.token);
-                }
-
                 showToast('¡Bienvenido al sistema!', 'success');
 
                 setTimeout(() => {
@@ -118,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 await api.logout();
             } catch (e) { /* ignorar */ }
-            api.setToken(null);
             window.location.href = '/ele2026/public/login';
         });
     };
