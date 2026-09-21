@@ -65,4 +65,24 @@ class MesaSufragio extends Model
             [':cid' => $centroId]
         );
     }
+
+    /**
+     * Busca una mesa por número de mesa, incluyendo datos de centro, distrito y el estado del acta (si existe).
+     * @param string $numero
+     * @return array|null
+     */
+    public function buscarPorNumero(string $numero): ?array
+    {
+        $sql = "SELECT m.*, cv.codigo AS centro_codigo, cv.nombre AS centro_nombre, d.id AS distrito_id, d.nombre AS distrito_nombre, a.estado AS acta_estado
+                FROM mesas_sufragio m
+                JOIN centros_votacion cv ON cv.id = m.centro_id
+                JOIN distritos d ON d.id = cv.distrito_id
+                LEFT JOIN actas_sufragio a ON a.mesa_id = m.id
+                WHERE m.numero_mesa = :numero
+                ORDER BY m.id LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':numero' => $numero]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
 }

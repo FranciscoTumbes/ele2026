@@ -285,26 +285,26 @@ INSERT INTO `usuarios` (`username`, `password_hash`, `nombres`, `rol_id`) VALUES
 
 INSERT INTO `provincias` (`region_id`, `codigo`, `nombre`) VALUES
 (1, 'TUM-01', 'Tumbes'),
-(2, 'TUM-02', 'Contralmirante Villar'),
-(3, 'TUM-03', 'Zarumilla');
+(1, 'TUM-02', 'Contralmirante Villar'),
+(1, 'TUM-03', 'Zarumilla');
 
 INSERT INTO `distritos` (`provincia_id`, `codigo`, `nombre`) VALUES
 -- Tumbes
-(1, 'TUM-01-01', 'Tumbes'),
-(1, 'TUM-01-02', 'Corrales'),
-(1, 'TUM-01-03', 'San Jacinto'),
-(1, 'TUM-01-04', 'San Juan de la Virgen'),
-(1, 'TUM-01-05', 'Pampas de Hospital'),
-(1, 'TUM-01-06', 'La Cruz'),
+(7, 'TUM-01-01', 'Tumbes'),
+(7, 'TUM-01-02', 'Corrales'),
+(7, 'TUM-01-03', 'San Jacinto'),
+(7, 'TUM-01-04', 'San Juan de la Virgen'),
+(7, 'TUM-01-05', 'Pampas de Hospital'),
+(7, 'TUM-01-06', 'La Cruz'),
 -- Contralmirante Villar
-(2, 'TUM-02-01', 'Zorritos'),
-(2, 'TUM-02-02', 'Casitas'),
-(2, 'TUM-02-03', 'Canoas de Punta Sal'),
+(8, 'TUM-02-01', 'Zorritos'),
+(8, 'TUM-02-02', 'Casitas'),
+(8, 'TUM-02-03', 'Canoas de Punta Sal'),
 -- Zarumilla
-(3, 'TUM-03-01', 'Zarumilla'),
-(3, 'TUM-03-02', 'Aguas Verdes'),
-(3, 'TUM-03-03', 'Matapalo'),
-(3, 'TUM-03-04', 'Papayal');
+(9, 'TUM-03-01', 'Zarumilla'),
+(9, 'TUM-03-02', 'Aguas Verdes'),
+(9, 'TUM-03-03', 'Matapalo'),
+(9, 'TUM-03-04', 'Papayal');
 
 INSERT INTO `agrupaciones_politicas` (`codigo`, `nombre`, `siglas`, `color_hex`) VALUES
 ('AP01', 'Alianza para el Progreso', 'APP', '#0066CC'),
