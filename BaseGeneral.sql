@@ -281,7 +281,7 @@ INSERT INTO `roles` (`nombre`, `descripcion`) VALUES
 
 -- Usuario admin por defecto (password: admin123 - CAMBIAR EN PRODUCCIÓN)
 INSERT INTO `usuarios` (`username`, `password_hash`, `nombres`, `rol_id`) VALUES
-('admin', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCZ0pOqMqW0xHwFAKzJzqZzQzQzQz', 'Administrador', 1);
+('admin', '$2y$12$8hJtZOW.C80eXhHDPFGcreZZqIVqIl98GhDltHTn2.C8K.hSMGIfS', 'Administrador', 1);
 
 INSERT INTO `provincias` (`region_id`, `codigo`, `nombre`) VALUES
 (1, 'TUM-01', 'Tumbes'),

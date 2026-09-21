@@ -6,7 +6,7 @@
 return [
     'host'     => '127.0.0.1',
     'port'     => 3306,
-    'dbname'   => 'sistema_electoral_tumbes',
+    'dbname'   => 'cpiset',
     'username' => 'root',
     'password' => '',
     'charset'  => 'utf8mb4',

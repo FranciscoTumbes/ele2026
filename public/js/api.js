@@ -25,8 +25,6 @@ class ApiClient {
         };
 
         if (this.token) {
-            // Note: Normally Authorization: Bearer {token}, but we assume session or token based on backend
-            // In Ele2026, AuthController might just use $_SESSION, but we send it anyway if needed.
             headers['Authorization'] = `Bearer ${this.token}`;
         }
 
@@ -47,7 +45,6 @@ class ApiClient {
             const data = await response.json();
 
             if (!response.ok || !data.success) {
-                // If 401 Unauthorized, handle logout redirect
                 if (response.status === 401) {
                     this.setToken(null);
                     window.location.href = '/ele2026/public/login';
@@ -61,12 +58,14 @@ class ApiClient {
         }
     }
 
-    // --- Endpoints ---
+    // ==========================================
+    // AUTH
+    // ==========================================
 
     login(username, password) {
         return this.request('/auth/login', {
             method: 'POST',
-            body: { username, password } // Adjust based on AuthController payload
+            body: { username, password }
         });
     }
 
@@ -78,27 +77,62 @@ class ApiClient {
         return this.request('/auth/me');
     }
 
-    getResumenResultados() {
-        return this.request('/resultados/resumen');
+    // ==========================================
+    // MESAS
+    // ==========================================
+
+    /**
+     * Busca una mesa por su número.
+     * Retorna info geográfica + estado del acta.
+     */
+    buscarMesa(numero) {
+        return this.request(`/mesas/buscar?numero=${encodeURIComponent(numero)}`);
     }
 
-    getCandidatos() {
-        return this.request('/candidatos');
+    // ==========================================
+    // CANDIDATOS
+    // ==========================================
+
+    /**
+     * Lista candidatos filtrados por elección y cargo.
+     * @param {number} eleccionId
+     * @param {number} cargoId
+     */
+    getCandidatos(eleccionId = 1, cargoId = 1) {
+        return this.request(`/candidatos?eleccion_id=${eleccionId}&cargo_id=${cargoId}`);
     }
 
-    buscarMesa(idMesa) {
-        // En ele2026, puede que la busqueda sea por /mesas?id=... o similar
-        // Simularemos o ajustaremos al endpoint correcto
-        return this.request(`/mesas?id=${idMesa}`);
-    }
+    // ==========================================
+    // ACTAS
+    // ==========================================
 
+    /**
+     * Registra un acta con cabecera y detalle de votos por candidato.
+     * @param {object} payload - { mesa_id, eleccion_id, electores_habilitados, votos_validos, votos_blancos, votos_nulos, total_votantes, detalles: [{candidato_id, votos_obtenidos}] }
+     */
     registrarActa(payload) {
         return this.request('/actas', {
             method: 'POST',
             body: payload
         });
     }
+
+    // ==========================================
+    // RESULTADOS
+    // ==========================================
+
+    getResumenResultados() {
+        return this.request('/resultados/resumen');
+    }
+
+    getTotalizacion() {
+        return this.request('/resultados/totalizacion');
+    }
+
+    getAvance() {
+        return this.request('/resultados/avance');
+    }
 }
 
-// Global instance
+// Instancia global
 window.api = new ApiClient();

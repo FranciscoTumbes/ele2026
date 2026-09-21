@@ -40,4 +40,29 @@ class UbicacionController extends Controller
         $model = new MesaSufragio();
         Response::success($model->porCentro($centroId));
     }
+
+    /** GET /api/mesas/buscar?numero=XXXX */
+    public function buscar(Request $request): void
+    {
+        $numero = trim((string) $request->input('numero', ''));
+        if ($numero === '') {
+            Response::error('El parámetro "numero" es requerido', 400);
+        }
+
+        $model = new MesaSufragio();
+        $mesa = $model->buscarPorNumero($numero);
+
+        if (!$mesa) {
+            Response::error('Mesa no encontrada con el número: ' . $numero, 404);
+        }
+
+        // Si el acta ya fue digitada, avisar al cliente
+        if (!empty($mesa['acta_estado']) && $mesa['acta_estado'] !== 'PENDIENTE') {
+            $mesa['acta_ya_digitada'] = true;
+        } else {
+            $mesa['acta_ya_digitada'] = false;
+        }
+
+        Response::success($mesa, 'Mesa encontrada');
+    }
 }

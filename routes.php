@@ -22,6 +22,7 @@ $router->group('api', ['AuthMiddleware'], function($router) {
     $router->get('/provincias', 'UbicacionController@provincias');
     $router->get('/distritos',  'UbicacionController@distritos');
     $router->get('/centros',    'UbicacionController@centros');
+    $router->get('/mesas/buscar', 'UbicacionController@buscar');
     $router->get('/mesas',      'UbicacionController@mesas');
 
     // Candidatos
