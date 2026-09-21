@@ -1,0 +1,14 @@
+RewriteEngine On
+# RewriteBase /ele2026/public/
+
+# Sirve archivos existentes directamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirige todo al front controller
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Seguridad básica
+<FilesMatch "\.(env|log|sql|md)$">
+    Require all denied
+</FilesMatch>
