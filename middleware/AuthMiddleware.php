@@ -17,7 +17,7 @@ class AuthMiddleware
             if ($request->isAjax()) {
                 Response::error('Sesión expirada. Inicie sesión nuevamente.', 401);
             }
-            Response::redirect('/ele2026/public/login');
+            Response::redirect('/login');
         }
 
         // Opcional: verificar roles específicos

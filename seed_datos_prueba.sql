@@ -57,3 +57,85 @@ INSERT INTO `candidatos` (`agrupacion_id`, `cargo_id`, `ambito_id`, `tipo_ambito
 -- 6. USUARIO DIGITADOR (password: digi123)
 INSERT INTO `usuarios` (`username`, `password_hash`, `nombres`, `rol_id`, `centro_id`) VALUES
 ('digitador1', '$2y$12$0zghkEvwX0qU2aKEYJ.DbuD6DRFKYGMv85gpjxCcliQV7xfs.Qcq6', 'Juan Operador', 3, 1);
+
+-- =====================================================
+-- 7. ACTAS DE SUFRAGIO DIGITADAS (para pruebas del Dashboard)
+-- =====================================================
+
+-- Acta mesa 000100 - Centro Cesar Vallejo
+INSERT INTO `actas_sufragio` (`mesa_id`, `eleccion_id`, `electores_habilitados`, `votos_validos`, `votos_blancos`, `votos_nulos`, `votos_impugnados`, `total_votantes`, `estado`, `fecha_digitacion`) VALUES
+(1, 1, 250, 230, 5, 10, 5, 250, 'DIGITADA', NOW());
+
+-- Detalle de votos para mesa 000100
+INSERT INTO `detalle_acta_candidato` (`acta_id`, `candidato_id`, `votos_obtenidos`) VALUES
+(1, 1, 95),   -- Garcia Mendoza (APP)
+(1, 2, 78),   -- Torres Vasquez (FPT)
+(1, 3, 32),   -- Ramirez Soto (ACT)
+(1, 4, 15),   -- Flores Herrera (REN)
+(1, 5, 10);   -- Navarro Cruz (MIA)
+
+-- Acta mesa 000101
+INSERT INTO `actas_sufragio` (`mesa_id`, `eleccion_id`, `electores_habilitados`, `votos_validos`, `votos_blancos`, `votos_nulos`, `votos_impugnados`, `total_votantes`, `estado`, `fecha_digitacion`) VALUES
+(2, 1, 280, 265, 8, 5, 2, 280, 'DIGITADA', NOW());
+
+INSERT INTO `detalle_acta_candidato` (`acta_id`, `candidato_id`, `votos_obtenidos`) VALUES
+(2, 1, 110),  -- Garcia Mendoza
+(2, 2, 85),   -- Torres Vasquez
+(2, 3, 40),   -- Ramirez Soto
+(2, 4, 20),   -- Flores Herrera
+(2, 5, 10);   -- Navarro Cruz
+
+-- Acta mesa 000102
+INSERT INTO `actas_sufragio` (`mesa_id`, `eleccion_id`, `electores_habilitados`, `votos_validos`, `votos_blancos`, `votos_nulos`, `votos_impugnados`, `total_votantes`, `estado`, `fecha_digitacion`) VALUES
+(3, 1, 260, 245, 7, 6, 2, 260, 'VERIFICADA', NOW());
+
+INSERT INTO `detalle_acta_candidato` (`acta_id`, `candidato_id`, `votos_obtenidos`) VALUES
+(3, 1, 98),   -- Garcia Mendoza
+(3, 2, 82),   -- Torres Vasquez
+(3, 3, 38),   -- Ramirez Soto
+(3, 4, 18),   -- Flores Herrera
+(3, 5, 9);    -- Navarro Cruz
+
+-- Acta mesa 000200
+INSERT INTO `actas_sufragio` (`mesa_id`, `eleccion_id`, `electores_habilitados`, `votos_validos`, `votos_blancos`, `votos_nulos`, `votos_impugnados`, `total_votantes`, `estado`, `fecha_digitacion`) VALUES
+(6, 1, 310, 295, 6, 7, 2, 310, 'DIGITADA', NOW());
+
+INSERT INTO `detalle_acta_candidato` (`acta_id`, `candidato_id`, `votos_obtenidos`) VALUES
+(4, 1, 125),  -- Garcia Mendoza
+(4, 2, 95),   -- Torres Vasquez
+(4, 3, 45),   -- Ramirez Soto
+(4, 4, 20),   -- Flores Herrera
+(4, 5, 10);   -- Navarro Cruz
+
+-- Acta mesa 000201
+INSERT INTO `actas_sufragio` (`mesa_id`, `eleccion_id`, `electores_habilitados`, `votos_validos`, `votos_blancos`, `votos_nulos`, `votos_impugnados`, `total_votantes`, `estado`, `fecha_digitacion`) VALUES
+(7, 1, 290, 275, 8, 5, 2, 290, 'DIGITADA', NOW());
+
+INSERT INTO `detalle_acta_candidato` (`acta_id`, `candidato_id`, `votos_obtenidos`) VALUES
+(5, 1, 115),  -- Garcia Mendoza
+(5, 2, 90),   -- Torres Vasquez
+(5, 3, 42),   -- Ramirez Soto
+(5, 4, 18),   -- Flores Herrera
+(5, 5, 10);   -- Navarro Cruz
+
+-- Acta mesa 000300 (Corrales)
+INSERT INTO `actas_sufragio` (`mesa_id`, `eleccion_id`, `electores_habilitados`, `votos_validos`, `votos_blancos`, `votos_nulos`, `votos_impugnados`, `total_votantes`, `estado`, `fecha_digitacion`) VALUES
+(9, 1, 320, 305, 7, 6, 2, 320, 'VERIFICADA', NOW());
+
+INSERT INTO `detalle_acta_candidato` (`acta_id`, `candidato_id`, `votos_obtenidos`) VALUES
+(6, 1, 130),  -- Garcia Mendoza
+(6, 2, 100),  -- Torres Vasquez
+(6, 3, 48),   -- Ramirez Soto
+(6, 4, 17),   -- Flores Herrera
+(6, 5, 10);   -- Navarro Cruz
+
+-- =====================================================
+-- RESUMEN TOTAL ESPERADO:
+-- Garcia Mendoza: 673 votos
+-- Torres Vasquez: 530 votos
+-- Ramirez Soto: 245 votos
+-- Flores Herrera: 108 votos
+-- Navarro Cruz: 59 votos
+-- Total votos validos: 1615
+-- Mesas procesadas: 6 de 11
+-- =====================================================

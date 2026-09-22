@@ -6,8 +6,8 @@ class FrontendController extends Controller
     public function index()
     {
         $target = $this->currentUser()
-            ? '/ele2026/public/dashboard'
-            : '/ele2026/public/login';
+            ? '/dashboard'
+            : '/login';
 
         Response::redirect($target);
     }
@@ -24,7 +24,7 @@ class FrontendController extends Controller
     public function dashboard()
     {
         if (!$this->currentUser()) {
-            Response::redirect('/ele2026/public/login');
+            Response::redirect('/login');
         }
 
         Response::html('layout', [
@@ -37,7 +37,7 @@ class FrontendController extends Controller
     public function digitacion()
     {
         if (!$this->currentUser()) {
-            Response::redirect('/ele2026/public/login');
+            Response::redirect('/login');
         }
 
         Response::html('layout', [

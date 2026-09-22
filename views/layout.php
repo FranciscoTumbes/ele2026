@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/ele2026/public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     
     <!-- Chart.js (Loaded only if needed, but included for Dashboard) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -28,8 +28,8 @@
             
             <nav>
                 <ul class="nav-links">
-                    <li><a href="/ele2026/public/dashboard" class="nav-link <?= ($activeMenu ?? '') === 'dashboard' ? 'active' : '' ?>">📊 Resultados</a></li>
-                    <li><a href="/ele2026/public/digitacion" class="nav-link <?= ($activeMenu ?? '') === 'digitacion' ? 'active' : '' ?>">⌨️ Digitación de Actas</a></li>
+                    <li><a href="/dashboard" class="nav-link <?= ($activeMenu ?? '') === 'dashboard' ? 'active' : '' ?>">📊 Resultados</a></li>
+                    <li><a href="/digitacion" class="nav-link <?= ($activeMenu ?? '') === 'digitacion' ? 'active' : '' ?>">⌨️ Digitación de Actas</a></li>
                     <!-- Future links -->
                     <li style="margin-top: 2rem;">
                         <a href="#" id="btnLogout" class="nav-link text-danger">🚪 Cerrar Sesión</a>
@@ -66,7 +66,7 @@
 <?php endif; ?>
 
 <!-- Core JavaScript -->
-<script src="/ele2026/public/js/api.js"></script>
-<script src="/ele2026/public/js/app.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/app.js"></script>
 </body>
 </html>
