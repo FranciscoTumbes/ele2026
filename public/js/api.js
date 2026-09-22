@@ -108,8 +108,8 @@ class ApiClient {
         return this.request('/resultados/resumen');
     }
 
-    getTotalizacion() {
-        return this.request('/resultados/totalizacion');
+    getTotalizacion(eleccionId = 1, cargoId = 1) {
+        return this.request(`/resultados/totalizacion?eleccion_id=${eleccionId}&cargo_id=${cargoId}`);
     }
 
     getAvance() {

@@ -18,6 +18,9 @@ class ResultadosRepository
         $sql = "SELECT
                     c.id AS candidato_id,
                     CONCAT(c.nombres, ' ', c.apellido_paterno, ' ', c.apellido_materno) AS candidato,
+                    c.apellido_paterno,
+                    c.apellido_materno,
+                    c.nombres,
                     ap.siglas,
                     ap.nombre AS agrupacion,
                     ap.color_hex,
@@ -26,7 +29,7 @@ class ResultadosRepository
                 JOIN agrupaciones_politicas ap ON ap.id = c.agrupacion_id
                 LEFT JOIN detalle_acta_candidato dac ON dac.candidato_id = c.id
                 LEFT JOIN actas_sufragio a ON a.id = dac.acta_id
-                    AND a.eleccion_id = :eid AND a.estado = 'VERIFICADA'
+                    AND a.eleccion_id = :eid AND a.estado IN ('DIGITADA', 'VERIFICADA')
                 WHERE c.cargo_id = :cid AND c.activo = 1";
         $params = [':eid' => $eleccionId, ':cid' => $cargoId];
 

@@ -123,7 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const setupDashboard = async () => {
         try {
-            const res = await api.getResumenResultados();
+            // Usar totalizacion para obtener votos reales por candidato
+            const res = await api.getTotalizacion();
             renderDashboardData(res.data);
         } catch (err) {
             console.warn('No se pudieron cargar resultados reales, usando datos de demostración.', err);
@@ -152,7 +153,13 @@ document.addEventListener('DOMContentLoaded', () => {
             renderDashboardDemo();
             return;
         }
-        const labels = data.candidatos.map(c => `${c.siglas} - ${c.apellido_paterno}`);
+        
+        // Actualizar estadísticas generales si están disponibles
+        if (data.total_votos_validos !== undefined) {
+            setText('statValidos', data.total_votos_validos.toLocaleString());
+        }
+        
+        const labels = data.candidatos.map(c => `${c.siglas} - ${c.apellido_paterno} ${c.apellido_materno}, ${c.nombres}`);
         const votos = data.candidatos.map(c => c.total_votos || 0);
         const colors = data.candidatos.map(c => c.color_hex || '#666');
         renderChart(labels, votos, colors);
