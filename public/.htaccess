@@ -1,5 +1,5 @@
 RewriteEngine On
-# RewriteBase /ele2026/public/
+# RewriteBase /
 
 # Sirve archivos existentes directamente
 RewriteCond %{REQUEST_FILENAME} !-f

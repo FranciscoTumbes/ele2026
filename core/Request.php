@@ -28,7 +28,7 @@ class Request
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
         $uri = parse_url($uri, PHP_URL_PATH);
         
-        // Extrae el directorio base de la ejecución (ej: /ele2026/public)
+        // Extrae el directorio base de la ejecución (ej: /public)
         $basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
         
         // Remueve el directorio base de la URI si está presente
