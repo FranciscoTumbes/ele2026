@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 class UbicacionController extends Controller
 {
-    /** GET /api/provincias?region_id=1 */
+    /** GET /api/provincias?region_id=1 (si se omite, usa la primera región registrada) */
     public function provincias(Request $request): void
     {
-        $regionId = (int) $request->input('region_id', 1);
+        $raw = $request->input('region_id');
+        $regionId = ($raw === null || $raw === '') ? null : (int) $raw;
         $model = new Provincia();
         Response::success($model->porRegion($regionId));
     }
