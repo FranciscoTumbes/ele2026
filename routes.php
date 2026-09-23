@@ -27,12 +27,14 @@ $router->group('api', ['AuthMiddleware'], function($router) {
 
     // Candidatos
     $router->get('/candidatos',  'CandidatoController@listar');
-    $router->post('/candidatos', 'CandidatoController@crear');
+    // Escritura: solo administradores (AdminMiddleware implica AuthMiddleware)
+    $router->post('/candidatos', 'CandidatoController@crear', ['AdminMiddleware']);
 
     // Actas (digitación)
     $router->post('/actas',              'ActaController@registrar');
     $router->get('/actas/pendientes',    'ActaController@pendientes');
-    $router->put('/actas/{id}/verificar','ActaController@verificar');
+    // Verificación de actas: rol JURADO o ADMIN
+    $router->put('/actas/{id}/verificar','ActaController@verificar', ['JuradoMiddleware']);
 
     // Resultados
     $router->get('/resultados/totalizacion', 'ResultadosController@totalizacion');

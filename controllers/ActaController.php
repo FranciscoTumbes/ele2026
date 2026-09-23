@@ -65,14 +65,21 @@ class ActaController extends Controller
         $centroId   = (int)$request->input('centro_id');
         $eleccionId = (int)$request->input('eleccion_id');
 
+        if (!$centroId || !$eleccionId) {
+            Response::error('Los parámetros centro_id y eleccion_id son requeridos', 400);
+        }
+
         $db = Database::getInstance();
+        // Nota: el filtro por eleccion_id va en el ON del LEFT JOIN; si se pusiera
+        // en el WHERE, las mesas con acta de otra elección quedarían excluidas
+        // erróneamente al no tener coincidencia (a.* sería NULL).
         $sql = "SELECT m.id, m.numero_mesa, m.electores_habilitados,
                        a.estado AS estado_acta
                 FROM mesas_sufragio m
                 LEFT JOIN actas_sufragio a
                     ON a.mesa_id = m.id AND a.eleccion_id = :eid
                 WHERE m.centro_id = :cid
-                  AND a.id IS NULL
+                  AND (a.id IS NULL OR a.estado = 'PENDIENTE')
                 ORDER BY m.numero_mesa";
         $stmt = $db->prepare($sql);
         $stmt->execute([':cid' => $centroId, ':eid' => $eleccionId]);

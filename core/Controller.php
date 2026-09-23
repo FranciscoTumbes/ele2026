@@ -9,9 +9,7 @@ abstract class Controller
     /** Obtiene el usuario autenticado desde sesión */
     protected function currentUser(): ?array
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        SecureSession::start();
         return $_SESSION['user'] ?? null;
     }
 

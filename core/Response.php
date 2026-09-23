@@ -34,9 +34,9 @@ class Response
 
     public static function html(string $view, array $data = []): void
     {
-        extract($data);
         header('Content-Type: text/html; charset=utf-8');
-        require __DIR__ . '/../views/' . $view . '.php';
+        // Seguridad: solo vistas registradas en la whitelist (previene LFI/inclusión arbitraria)
+        View::render($view, $data);
         exit;
     }
 

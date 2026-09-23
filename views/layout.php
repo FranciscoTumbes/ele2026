@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Sistema Electoral 2026' ?></title>
+    <title><?= e($title ?? 'Sistema Electoral 2026') ?></title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +18,10 @@
 </head>
 <body>
 
+<?php
+// Seguridad: la vista de contenido solo puede ser una registrada en View (whitelist anti-LFI)
+$contentView = (class_exists('View') && View::exists($contentView ?? '')) ? $contentView : 'login';
+?>
 <?php if (!isset($hideLayout) || !$hideLayout): ?>
     <div class="app-container">
         <!-- Sidebar -->
@@ -41,7 +45,7 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="top-header">
-                <h1 class="header-title"><?= $title ?? 'Panel de Control' ?></h1>
+                <h1 class="header-title"><?= e($title ?? 'Panel de Control') ?></h1>
                 
                 <div class="user-profile">
                     <div class="user-info" style="text-align: right;">
