@@ -1,59 +1,6 @@
 <?php
 declare(strict_types=1);
 
-class Provincia extends Model
-{
-    protected string $table = 'provincias';
-
-    /** Lista provincias de una región */
-    public function porRegion(int $regionId): array
-    {
-        return $this->query(
-            "SELECT * FROM provincias WHERE region_id = :rid AND activo = 1 ORDER BY nombre",
-            [':rid' => $regionId]
-        );
-    }
-}
-
-class Distrito extends Model
-{
-    protected string $table = 'distritos';
-
-    public function porProvincia(int $provinciaId): array
-    {
-        return $this->query(
-            "SELECT * FROM distritos WHERE provincia_id = :pid AND activo = 1 ORDER BY nombre",
-            [':pid' => $provinciaId]
-        );
-    }
-}
-
-class CentroVotacion extends Model
-{
-    protected string $table = 'centros_votacion';
-
-    public function porDistrito(int $distritoId): array
-    {
-        return $this->query(
-            "SELECT * FROM centros_votacion WHERE distrito_id = :did AND activo = 1 ORDER BY nombre",
-            [':did' => $distritoId]
-        );
-    }
-
-    /** Centros con nombre de distrito */
-    public function listarCompleto(int $distritoId): array
-    {
-        return $this->query(
-            "SELECT cv.*, d.nombre AS distrito
-             FROM centros_votacion cv
-             JOIN distritos d ON d.id = cv.distrito_id
-             WHERE cv.distrito_id = :did AND cv.activo = 1
-             ORDER BY cv.nombre",
-            [':did' => $distritoId]
-        );
-    }
-}
-
 class MesaSufragio extends Model
 {
     protected string $table = 'mesas_sufragio';
@@ -67,21 +14,28 @@ class MesaSufragio extends Model
     }
 
     /**
-     * Busca una mesa por número de mesa, incluyendo datos de centro, distrito y el estado del acta (si existe).
-     * @param string $numero
+     * Busca una mesa por número de mesa, incluyendo datos de centro, distrito y el
+     * estado del acta PARA LA ELECCIÓN INDICADA (si existe).
+     *
+     * @param string   $numero
+     * @param int|null $eleccionId Si se omite, se devuelve la primera mesa coincidente.
      * @return array|null
      */
-    public function buscarPorNumero(string $numero): ?array
+    public function buscarPorNumero(string $numero, ?int $eleccionId = null): ?array
     {
-        $sql = "SELECT m.*, cv.codigo AS centro_codigo, cv.nombre AS centro_nombre, d.id AS distrito_id, d.nombre AS distrito_nombre, a.estado AS acta_estado
+        $sql = "SELECT m.*, cv.codigo AS centro_codigo, cv.nombre AS centro_nombre,
+                       d.id AS distrito_id, d.nombre AS distrito_nombre,
+                       a.estado AS acta_estado
                 FROM mesas_sufragio m
                 JOIN centros_votacion cv ON cv.id = m.centro_id
                 JOIN distritos d ON d.id = cv.distrito_id
-                LEFT JOIN actas_sufragio a ON a.mesa_id = m.id
+                LEFT JOIN actas_sufragio a
+                    ON a.mesa_id = m.id
+                   AND (:eid IS NULL OR a.eleccion_id = :eid)
                 WHERE m.numero_mesa = :numero
                 ORDER BY m.id LIMIT 1";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([':numero' => $numero]);
+        $stmt->execute([':numero' => $numero, ':eid' => $eleccionId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ?: null;
     }

@@ -41,7 +41,7 @@ class UbicacionController extends Controller
         Response::success($model->porCentro($centroId));
     }
 
-    /** GET /api/mesas/buscar?numero=XXXX */
+    /** GET /api/mesas/buscar?numero=XXXX&eleccion_id=Y */
     public function buscar(Request $request): void
     {
         $numero = trim((string) $request->input('numero', ''));
@@ -49,8 +49,12 @@ class UbicacionController extends Controller
             Response::error('El parámetro "numero" es requerido', 400);
         }
 
+        // eleccion_id es opcional pero recomendado: sin él, el estado del acta
+        // mostraría el de cualquier elección, no el de la que se está digitando.
+        $eleccionId = (int) $request->input('eleccion_id');
+
         $model = new MesaSufragio();
-        $mesa = $model->buscarPorNumero($numero);
+        $mesa = $model->buscarPorNumero($numero, $eleccionId ?: null);
 
         if (!$mesa) {
             Response::error('Mesa no encontrada con el número: ' . $numero, 404);

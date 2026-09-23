@@ -20,10 +20,13 @@ class AuthController extends Controller
             Response::error('Credenciales inválidas', 401);
         }
 
-        // Inicia sesión PHP
-        if (session_status() === PHP_SESSION_NONE) session_start();
+        // Inicia sesión PHP de forma segura
+        SecureSession::start();
+        // Regenera el ID de sesión para prevenir session fixation
+        SecureSession::regenerate();
         $_SESSION['user'] = $user;
         $_SESSION['login_time'] = time();
+        $_SESSION['last_activity'] = time();
 
         Response::success([
             'user' => $user,
@@ -36,9 +39,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request): void
     {
-        if (session_status() === PHP_SESSION_NONE) session_start();
-        $_SESSION = [];
-        session_destroy();
+        SecureSession::destroy();
         Response::success(null, 'Sesión cerrada');
     }
 

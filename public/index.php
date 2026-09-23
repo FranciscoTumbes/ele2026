@@ -13,28 +13,37 @@ set_exception_handler(function(Throwable $e) {
     }
 });
 
-// === 2. Autoload simple ===
-$dirs = ['core', 'models', 'controllers', 'middleware', 'repositories'];
+// === 2. Autoload simple (incluye subdirectorios de models/) ===
+$dirs = ['core', 'models', 'models/Ubicacion', 'controllers', 'middleware', 'repositories'];
 foreach ($dirs as $dir) {
     foreach (glob(__DIR__ . "/../{$dir}/*.php") as $file) {
         require_once $file;
     }
 }
+require_once __DIR__ . '/../helpers.php';
 
-// === 3. CORS para peticiones AJAX ===
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+// === 3. CORS: restringir origen cuando se usa sesión por cookies ===
+// Access-Control-Allow-Origin: * es INCOMPATIBLE con credenciales (cookies).
+// Se define un allowlist en config/cors.php; si no existe, no se envía CORS.
+$corsAllowedOrigins = is_file(__DIR__ . '/../config/cors.php')
+    ? require __DIR__ . '/../config/cors.php'
+    : [];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin !== '' && in_array($origin, $corsAllowedOrigins, true)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+    http_response_code(204);
     exit;
 }
 
-// === 4. Inicia sesión ===
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// === 4. Inicia sesión con parámetros seguros ===
+SecureSession::start();
 
 // === 5. Construye request y router ===
 $request = new Request();
