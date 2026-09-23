@@ -37,7 +37,7 @@ class AdminMiddleware
 
     /**
      * El rol puede venir como string (nombre, ej. 'ADMIN') o como ID numérico
-     * de la tabla roles (1 = ADMIN según BaseGeneral.sql).
+     * de la tabla roles (1 = ADMIN según cpiset.sql).
      */
     public static function isAdmin(array $user): bool
     {

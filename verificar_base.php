@@ -13,8 +13,10 @@ $bd = 'cpiset';
 $usuario = 'root';
 $password = ''; // XAMPP por defecto sin contraseña; ajústalo si tu MySQL tiene clave.
 
-$tablaEsperada = ['usuarios', 'elecciones', 'actas', 'candidatos', 'partidospoliticos',
-                  'provincias', 'distritos', 'regiones', 'mesas'];
+$tablaEsperada = ['usuarios', 'roles', 'elecciones', 'actas_sufragio', 'candidatos',
+                  'agrupaciones_politicas', 'detalle_acta_candidato', 'provincias',
+                  'distritos', 'regiones', 'mesas_sufragio', 'centros_votacion',
+                  'electores', 'cargos', 'auditoria', 'sesiones_usuario'];
 
 header('Content-Type: text/plain; charset=utf-8');
 
@@ -58,7 +60,7 @@ echo "[OK] Todas las tablas existen.\n";
 
 // Conteos por tabla clave
 echo "\nRegistros por tabla:\n";
-foreach (['usuarios', 'elecciones', 'candidatos', 'mesas', 'actas', 'distritos'] as $t) {
+foreach (['usuarios', 'elecciones', 'candidatos', 'mesas_sufragio', 'actas_sufragio', 'distritos'] as $t) {
     $n = (int)$pdo->query("SELECT COUNT(*) FROM `$t`")->fetchColumn();
     printf("  %-12s %5d registros%s\n", $t, $n, $n === 0 ? '  <-- ¡VACÍA! vuelve a importar cpiset.sql' : '');
 }
